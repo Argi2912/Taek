@@ -365,6 +365,12 @@ return [
             'text' => 'Logs',
             'url' => 'logs',
             'icon' => 'fas fa-users',
+            'can' => 'gestionar_permisos'
+        ],
+        [
+            'text' => 'Manuales',
+            'url' => 'manual',
+            'icon' => 'fas fa-newspaper',
             //'can' => 'gestionar_permisos'
         ],
         

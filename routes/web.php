@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRegistrationController;
+use App\Http\Controllers\ManualController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProfileController;
@@ -61,6 +62,8 @@ Route::middleware('auth')->group(function () {
     //Route::get('/logs', [SystemLogController::class, 'index'])->name('logs.index');
     //Route::get('/logs', [SystemLogController::class, 'index'])->name('logs.index');
     Route::resource('/logs', SystemLogController::class);
+
+    Route::get('/manual', [ManualController::class, 'index'])->name('manual.index');
 
 });
 

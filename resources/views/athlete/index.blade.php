@@ -45,19 +45,6 @@
                     </div>
 
                     <div class="card-body">
-                        <!-- Botones de exportación explícitos -->
-                        <div class="export-buttons mb-3">
-                            <button class="btn btn-success btn-sm export-excel">
-                                <i class="fas fa-file-excel mr-1"></i> Excel
-                            </button>
-                            <button class="btn btn-danger btn-sm export-pdf">
-                                <i class="fas fa-file-pdf mr-1"></i> PDF
-                            </button>
-                            <button class="btn btn-info btn-sm export-print">
-                                <i class="fas fa-print mr-1"></i> Imprimir
-                            </button>
-                        </div>
-                        
                         <div class="table-responsive">
                             <table id="athleteTable" class="table table-hover mb-0">
                                 <thead>
@@ -177,70 +164,17 @@
         </div>
     </div>
 
-    @push('css')
+    @section('css')
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <!-- Font Awesome for export buttons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <!-- DataTables CSS -->
-        <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css')}}">
-        <link rel="stylesheet" href="{{asset('css/buttons.bootstrap4.min.css')}}">
-        
-        <style>
-            .avatar-sm {
-                width: 2rem;
-                height: 2rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+        <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/buttons.bootstrap4.min.css') }}">
+    @endsection
 
-            .table> :not(caption)>*>* {
-                padding: 1rem 0.5rem;
-            }
-
-            .pagination {
-                margin-bottom: 0;
-            }
-
-            .badge-grade {
-                padding: 0.25rem 0.5rem;
-                border-radius: 0.25rem;
-                font-size: 0.85em;
-                font-weight: 500;
-                display: inline-block;
-                min-width: 80px;
-                text-align: center;
-                text-transform: uppercase;
-                background-color: #f8f9fa;
-                border: 1px solid #dee2e6;
-            }
-            
-            /* Estilos para los botones de exportación */
-            .export-buttons {
-                display: flex;
-                gap: 0.5rem;
-            }
-            
-            .export-buttons .btn {
-                display: flex;
-                align-items: center;
-                gap: 0.25rem;
-            }
-            
-            /* Estilo para el texto-rosa */
-            .text-pink {
-                color: #e83e8c;
-            }
-            
-            /* Ocultar los botones generados por DataTables */
-            .dt-buttons {
-                display: none !important;
-            }
-        </style>
-    @endpush
-
-    @push('js')
+    @section('js')
         <!-- DataTables JS -->
         <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
@@ -251,17 +185,15 @@
         <script src="{{ asset('js/vfs_fonts.js') }}"></script>
         <script src="{{ asset('js/buttons.html5.min.js') }}"></script>
         <script src="{{ asset('js/buttons.print.min.js') }}"></script>
-        
+
         <script>
             $(document).ready(function() {
-                // Inicializar DataTable
                 var table = $('#athleteTable').DataTable({
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
-                    },
-                    buttons: [
-                        {
+                    dom: 'Bfrtip', // Define la posición de los botones
+                    buttons: [{
                             extend: 'excel',
+                            text: '<i class="fas fa-file-excel mr-1"></i> Excel',
+                            className: 'btn btn-success btn-sm',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4, 5, 6]
                             },
@@ -269,6 +201,8 @@
                         },
                         {
                             extend: 'pdf',
+                            text: '<i class="fas fa-file-pdf mr-1"></i> PDF',
+                            className: 'btn btn-danger btn-sm',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4, 5, 6]
                             },
@@ -276,6 +210,8 @@
                         },
                         {
                             extend: 'print',
+                            text: '<i class="fas fa-print mr-1"></i> Imprimir',
+                            className: 'btn btn-info btn-sm',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4, 5, 6]
                             },
@@ -283,32 +219,11 @@
                         }
                     ],
                     "pageLength": 25,
-                    "order": [[0, 'asc']]
+                    "order": [
+                        [0, 'asc']
+                    ]
                 });
-                
-                // Conectar botones personalizados con las funciones de DataTables
-                $('.export-excel').on('click', function() {
-                    table.button('.buttons-excel').trigger();
-                });
-                
-                $('.export-pdf').on('click', function() {
-                    table.button('.buttons-pdf').trigger();
-                });
-                
-                $('.export-print').on('click', function() {
-                    table.button('.buttons-print').trigger();
-                });
-
-                // Auto-cerrar alertas después de 5 segundos
-                window.setTimeout(function() {
-                    document.querySelectorAll(".alert").forEach(function(alert) {
-                        var bsAlert = new bootstrap.Alert(alert);
-                        setTimeout(function() {
-                            bsAlert.close();
-                        }, 5000);
-                    });
-                }, 1000);
             });
         </script>
-    @endpush
+    @endsection
 @endsection

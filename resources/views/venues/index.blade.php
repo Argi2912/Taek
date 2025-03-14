@@ -39,19 +39,6 @@
                     </div>
 
                     <div class="card-body">
-                        <!-- Botones de exportación explícitos -->
-                        <div class="export-buttons mb-3">
-                            <button class="btn btn-success btn-sm export-excel">
-                                <i class="fas fa-file-excel mr-1"></i> Excel
-                            </button>
-                            <button class="btn btn-danger btn-sm export-pdf">
-                                <i class="fas fa-file-pdf mr-1"></i> PDF
-                            </button>
-                            <button class="btn btn-info btn-sm export-print">
-                                <i class="fas fa-print mr-1"></i> Imprimir
-                            </button>
-                        </div>
-                        
                         <div class="table-responsive">
                             <table id="venuesTable" class="table table-hover mb-0">
                                 <thead class="table-light">
@@ -120,49 +107,17 @@
         </div>
     </div>
 
-    @push('css')
+    @section('css')
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <!-- Font Awesome for export buttons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <!-- DataTables CSS -->
-        <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap5.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/buttons.bootstrap4.min.css') }}">
-        
-        <style>
-            .table> :not(caption)>*>* {
-                padding: 1rem 0.5rem;
-            }
+    @endsection
 
-            .pagination {
-                margin-bottom: 0;
-            }
-            
-            /* Estilos para los botones de exportación */
-            .export-buttons {
-                display: flex;
-                gap: 0.5rem;
-            }
-            
-            .export-buttons .btn {
-                display: flex;
-                align-items: center;
-                gap: 0.25rem;
-            }
-            
-            /* Ocultar los botones generados por DataTables */
-            .dt-buttons {
-                display: none !important;
-            }
-            
-            /* Estilo para los iconos en los botones */
-            .fas {
-                margin-right: 5px;
-            }
-        </style>
-    @endpush
-
-    @push('js')
+    @section('js')
         <!-- DataTables JS -->
         <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('js/dataTables.bootstrap4.min.js') }}"></script>
@@ -174,13 +129,16 @@
         <script src="{{ asset('js/buttons.html5.min.js') }}"></script>
         <script src="{{ asset('js/buttons.print.min.js') }}"></script>
 
+
         <script>
             $(document).ready(function() {
                 // Inicializar DataTable
                 var table = $('#venuesTable').DataTable({
-                    buttons: [
-                        {
+                    dom: 'Bfrtip', // Define la posición de los botones
+                    buttons: [{
                             extend: 'excel',
+                            text: '<i class="fas fa-file-excel mr-1"></i> Excel',
+                            className: 'btn btn-success btn-sm',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4, 5]
                             },
@@ -188,6 +146,8 @@
                         },
                         {
                             extend: 'pdf',
+                            text: '<i class="fas fa-file-pdf mr-1"></i> PDF',
+                            className: 'btn btn-danger btn-sm',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4, 5]
                             },
@@ -195,6 +155,8 @@
                         },
                         {
                             extend: 'print',
+                            text: '<i class="fas fa-print mr-1"></i> Imprimir',
+                            className: 'btn btn-info btn-sm',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4, 5]
                             },
@@ -202,20 +164,9 @@
                         }
                     ],
                     "pageLength": 25,
-                    "order": [[0, 'asc']]
-                });
-                
-                // Conectar botones personalizados con las funciones de DataTables
-                $('.export-excel').on('click', function() {
-                    table.button('.buttons-excel').trigger();
-                });
-                
-                $('.export-pdf').on('click', function() {
-                    table.button('.buttons-pdf').trigger();
-                });
-                
-                $('.export-print').on('click', function() {
-                    table.button('.buttons-print').trigger();
+                    "order": [
+                        [0, 'asc']
+                    ]
                 });
 
                 // Auto-cerrar alertas después de 5 segundos
@@ -229,5 +180,6 @@
                 }, 1000);
             });
         </script>
-    @endpush
+    @endsection
+
 @endsection
