@@ -144,9 +144,6 @@
                             <button type="button" id="add-category" class="btn btn-secondary mt-2">
                                 <i class="fas fa-plus"></i> Agregar Categoría
                             </button>
-                            <button type="button" id="add-category" class="btn btn-secondary mt-2">
-                                <i class="fas fa-plus"></i> Agregar Categoría
-                            </button>
                         </div>
 
                         <div class="text-right">
